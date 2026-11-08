@@ -16,6 +16,12 @@ jobs:
       - name: Extract Emulsion archive
         run: unzip -o Emulsion-0.5.0-test-FULL.zip -d source
 
+      - name: Check project structure
+        run: |
+          ls -la source
+          test -f source/settings.gradle.kts
+          test -f source/app/build.gradle.kts
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -37,12 +43,12 @@ jobs:
           gradle-version: '8.11.1'
 
       - name: Build APK
-        working-directory: source/Emulsion
+        working-directory: source
         run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Emulsion-debug-APK
-          path: source/Emulsion/app/build/outputs/apk/debug/app-debug.apk
+          path: source/app/build/outputs/apk/debug/app-debug.apk
           
